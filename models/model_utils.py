@@ -33,6 +33,18 @@ class LayerNorm(nn.Module):
 
 class LayerNormChannelLast(nn.Module):
 
+    """Implementation of layer normalization for the data format: 
+    channels_last. Thus the dimensions of the input and the output will be
+    (batch_size, height, width, channels)
+    
+    Keyword arguments:
+    
+    arguments -- 
+    normalized_dim - dimension of the tensors to be normalized
+    eps - epsilon value for Layer Normalization equation
+
+    Return: Normalized value of input tensor x."""
+
     def __init__(self, normalized_shape: int, eps: float = 1e-6):
         super(LayerNormChannelLast, self).__init__()
         self.weight = nn.Parameter(torch.ones(normalized_shape))
@@ -41,16 +53,20 @@ class LayerNormChannelLast(nn.Module):
         self.normalized_shape = (normalized_shape, )
 
     def forward(self, x: Tensor) -> Tensor:
+        #Just call layer norm from nn.Functional
         return F.layer_norm(x, self.normalized_shape, self.weight, self.bias, self.eps)
     
 
 
 class DualPathResponseFusionAttention(nn.Module):
-  """sumary_line
+  """
+    Official implementation of our proposed Dual Path Response Fusion Attention module.
+  For better clarity, refer to the symbols given in the paper (Fig 3.)
+
   
   Keyword arguments:
-  argument -- description
-  Return: return_description
+  argument -- F_g, F_l and F_int are tunable dimensions for Conv 1x1 layers
+  Return: returns a torch Tensor n_u2 + theta_fuse
   """
   
 

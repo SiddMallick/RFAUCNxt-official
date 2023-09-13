@@ -64,5 +64,55 @@ class ConvNext(nn.Module):
         x = self.head(x)
         return x
         
+weight_urls = {
+    "convnext_tiny" : "https://dl.fbaipublicfiles.com/convnext/convnext_tiny_1k_224_ema.pth",
+    "convnext_small": "https://dl.fbaipublicfiles.com/convnext/convnext_small_1k_224_ema.pth",
+    "convnext_base": "https://dl.fbaipublicfiles.com/convnext/convnext_base_1k_224_ema.pth",
+    "convnext_large": "https://dl.fbaipublicfiles.com/convnext/convnext_large_1k_224_ema.pth",
+}
 
+
+def convnext_build(model_size = 'convnext_tiny', pretrained = 'False', **kwargs):
+    """sumary_line
+    
+    Keyword arguments:
+    argument -- description
+    Return: return_description
+    """
+
+    if model_size == 'convnext_tiny':
+        model = ConvNext(depths = [3, 3, 9, 3], dims = [96,192,384,768], **kwargs)
+
+        if pretrained:
+            pretrained_weight_url = weight_urls['convnext_tiny']
+            checkpoint = torch.hub.load_state_dict_from_url(pretrained_weight_url, map_location = "cpu")
+            model.load_state_dict(checkpoint["model"])
+        return model
+    elif model_size == 'convnext_small':
+        model = ConvNext(depths = [3, 3, 27, 3], dims = [96, 192, 384, 768], **kwargs)
+
+        if pretrained:
+            pretrained_weight_url = weight_urls['convnext_small']
+            checkpoint = torch.hub.load_state_dict_from_url(pretrained_weight_url, map_location = "cpu")
+            model.load_state_dict(checkpoint["model"])
+        return model
+    
+    elif model_size == 'convnext_base':
+        model = ConvNext(depths = [3, 3, 27, 3], dims = [128, 256, 512, 1024], **kwargs)
+
+        if pretrained:
+            pretrained_weight_url = weight_urls['convnext_base']
+            checkpoint = torch.hub.load_state_dict_from_url(pretrained_weight_url, map_location = "cpu")
+            model.load_state_dict(checkpoint["model"])
+        return model
+    elif model_size == 'convnext_large':
+        model = ConvNext(depths = [3, 3, 27, 3], dims = [256, 512, 1024, 2048], **kwargs)
+
+        if pretrained:
+            pretrained_weight_url = weight_urls['convnext_large']
+            checkpoint = torch.hub.load_state_dict_from_url(pretrained_weight_url, map_location = "cpu")
+            model.load_state_dict(checkpoint["model"])
+        return model
+    
+    
 

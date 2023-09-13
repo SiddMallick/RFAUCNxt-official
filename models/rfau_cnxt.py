@@ -7,7 +7,7 @@ from model_utils import conv_relu, DualPathResponseFusionAttention
 from blocks import ConvNextDecoderBlock
 
 class ResponseFusionAttentionUConvNextTiny(nn.Module):
-  def __init__(self, pretrained_encoder_backbone = True, n_class = 1, **kwargs):
+  def __init__(self, pretrained_encoder_backbone: bool = True, n_class: int = 1, **kwargs) -> None:
     super(ResponseFusionAttentionUConvNextTiny,self).__init__()
     #Down part of convunext
     self.encoder = convnext_build(
@@ -42,7 +42,7 @@ class ResponseFusionAttentionUConvNextTiny(nn.Module):
     #Last conv layer
     self.conv_last = nn.Conv2d(96, n_class, kernel_size = 1)
 
-  def forward(self, input):
+  def forward(self, input: torch.Tensor) -> torch.Tensor:
 
     layer0 = self.layer0(input)
     layer1 = self.layer1(layer0)
@@ -76,8 +76,8 @@ class ResponseFusionAttentionUConvNextTiny(nn.Module):
 
 class ResponseFusionAttentionUConvNextSmall(nn.Module):
   def __init__(
-      self, pretrained_encoder_backbone = True, n_class = 1, **kwargs
-  ):
+      self, pretrained_encoder_backbone: bool = True, n_class: int = 1, **kwargs
+  ) -> None:
     super(ResponseFusionAttentionUConvNextSmall,self).__init__()
     #Down part of convunext
     self.encoder = convnext_build(
@@ -110,7 +110,7 @@ class ResponseFusionAttentionUConvNextSmall(nn.Module):
     #Last conv layer
     self.conv_last = nn.Conv2d(96, n_class, kernel_size = 1)
 
-  def forward(self, input):
+  def forward(self, input: torch.Tensor) -> torch.Tensor:
 
     layer0 = self.layer0(input)
     layer1 = self.layer1(layer0)
@@ -145,8 +145,8 @@ class ResponseFusionAttentionUConvNextSmall(nn.Module):
 
 class ResponseFusionAttentionUConvNextBase(nn.Module):
   def __init__(
-      self, pretrained_encoder_backbone = True , n_class = 1, **kwargs
-  ):
+      self, pretrained_encoder_backbone: bool = True , n_class: int = 1, **kwargs
+  ) -> None:
     super(ResponseFusionAttentionUConvNextBase ,self).__init__()
     #Down part of convunext
     self.encoder = convnext_build(
@@ -179,7 +179,7 @@ class ResponseFusionAttentionUConvNextBase(nn.Module):
     #Last conv layer
     self.conv_last = nn.Conv2d(128, n_class, kernel_size = 1)
 
-  def forward(self, input):
+  def forward(self, input: torch.Tensor) -> torch.Tensor:
 
     layer0 = self.layer0(input)
     layer1 = self.layer1(layer0)
@@ -214,8 +214,8 @@ class ResponseFusionAttentionUConvNextBase(nn.Module):
 
 class ResponseFusionAttentionUConvNextLarge(nn.Module):
   def __init__(
-      self,  pretrained_encoder_backbone = True, n_class = 1, **kwargs
-  ):
+      self,  pretrained_encoder_backbone: bool = True, n_class: int = 1, **kwargs
+  ) -> None:
     super(ResponseFusionAttentionUConvNextLarge,self).__init__()
     #Down part of convunext
     self.encoder = convnext_build(
@@ -248,7 +248,7 @@ class ResponseFusionAttentionUConvNextLarge(nn.Module):
     #Last conv layer
     self.conv_last = nn.Conv2d(192, n_class, kernel_size = 1)
 
-  def forward(self, input):
+  def forward(self, input : torch.Tensor) -> torch.Tensor:
 
     layer0 = self.layer0(input)
     layer1 = self.layer1(layer0)

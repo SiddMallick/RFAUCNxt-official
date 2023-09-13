@@ -10,10 +10,10 @@ class ConvNext(nn.Module):
     "Liu, Zhuang, et al. "A convnet for the 2020s." Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. 2022."
     
     """
-    def __init__(self, in_channels = 3, num_classes = 1000,
-                 depths = [3,3,9,3], dims = [96, 192, 384, 768], drop_path_rate = 0.,
-                 layer_scale_init_value = 1e-6, head_init_scale = 1.,
-                 ):
+    def __init__(self, in_channels: int = 3, num_classes: int = 1000,
+                 depths: List[int] = [3,3,9,3], dims: List[int] = [96, 192, 384, 768], drop_path_rate: int = 0.,
+                 layer_scale_init_value:int  = 1e-6, head_init_scale: int = 1.,
+                 ) -> None:
         
 
         super(ConvNext, self).__init__()
@@ -59,12 +59,12 @@ class ConvNext(nn.Module):
         self.head.weight.data.mul_(head_init_scale)
         self.head.bias.data.mul_(head_init_scale)
 
-    def _init_weights(self, m):
+    def _init_weights(self, m) -> None:
         if isinstance(m, (nn.Conv2d, nn.Linear)):
             trunc_normal_(m.weight, std=.02)
             nn.init.constant_(m.bias, 0)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
 
         for i in range(4):
             x = self.downsample_layers[i](x)
@@ -81,7 +81,7 @@ weight_urls = {
 }
 
 
-def convnext_build(model_size = 'convnext_tiny', pretrained = 'False', **kwargs):
+def convnext_build(model_size: str = 'convnext_tiny', pretrained: bool = False, **kwargs) -> ConvNext:
     """sumary_line
     
     Keyword arguments:

@@ -45,7 +45,7 @@ class LayerNormChannelLast(nn.Module):
 
     Return: Normalized value of input tensor x."""
 
-    def __init__(self, normalized_shape: int, eps: float = 1e-6):
+    def __init__(self, normalized_shape: int, eps: float = 1e-6) -> None:
         super(LayerNormChannelLast, self).__init__()
         self.weight = nn.Parameter(torch.ones(normalized_shape))
         self.bias = nn.Parameter(torch.zeros(normalized_shape))

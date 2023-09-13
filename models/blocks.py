@@ -21,11 +21,11 @@ class ConvNextEncoderBlock(nn.Module):
     """
     def __init__(self, dim: int , drop_path:float = 0., layer_scale_init_value: float=1e-6 ) -> None:
         super(ConvNextEncoderBlock, self).__init__()
-        self.dw_conv = nn.Conv2d(dim, dim, kernel_size =7, padding = 3, groups = dim) #Depth-wise Convolution
-        self.layer_norm = LayerNormChannelLast(dim, eps = 1e-6)
-        self.pw_conv1 = nn.Linear(dim, 4 * dim) #Pointwise or 1x1 Conv layer
-        self.gelu = nn.GELU()
-        self.pw_conv2 = nn.Linear(4 * dim, dim)
+        self.dwconv = nn.Conv2d(dim, dim, kernel_size =7, padding = 3, groups = dim) #Depth-wise Convolution
+        self.norm = LayerNormChannelLast(dim, eps = 1e-6)
+        self.pwconv1 = nn.Linear(dim, 4 * dim) #Pointwise or 1x1 Conv layer
+        self.act = nn.GELU()
+        self.pwconv2 = nn.Linear(4 * dim, dim)
         self.gamma = nn.Parameter(
                                     layer_scale_init_value * torch.ones((dim)),
                                     requires_grad = True) if layer_scale_init_value> 0 else None
@@ -42,12 +42,12 @@ class ConvNextEncoderBlock(nn.Module):
         """
         
         input_x = x
-        x = self.dw_conv(x)
+        x = self.dwconv(x)
         x = x.permute(0, 2, 3, 1) # Permuting Dimensions --- (B, C, H, W) -> (B, H, W, C)
         x = self.norm(x) #Layer Norm with channel dimensions are aligned at the last 
-        x = self.pw_conv1(x)
-        x = self.gelu(x)
-        x = self.pw_conv2(x)
+        x = self.pwconv1(x)
+        x = self.act(x)
+        x = self.pwconv2(x)
         if self.gamma is not None:
             x = self.gamma * x
         x = x.permute(0, 3, 1, 2) # Permuting Dimensions --- (B, H, W, C) -> (B, C, H, W)

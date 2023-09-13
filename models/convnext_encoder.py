@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from model_utils import LayerNorm
 from blocks import ConvNextEncoderBlock
+from timm.models.layers import trunc_normal_, DropPath
 
 class ConvNext(nn.Module):
     """
@@ -9,8 +10,8 @@ class ConvNext(nn.Module):
     "Liu, Zhuang, et al. "A convnet for the 2020s." Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. 2022."
     
     """
-    def __init__(self, in_channels = 3, num_classes = 100,
-                 depths = [3,3,9,3], dims = [96,192,384,768], drop_path_rate = 0.,
+    def __init__(self, in_channels = 3, num_classes = 1000,
+                 depths = [3,3,9,3], dims = [96, 192, 384, 768], drop_path_rate = 0.,
                  layer_scale_init_value = 1e-6, head_init_scale = 1.,
                  ):
         
@@ -18,14 +19,14 @@ class ConvNext(nn.Module):
         super(ConvNext, self).__init__()
         
         #Stem operation and 3 downsampling layers
-        self.encoder_downsampling_collection = nn.ModuleList() 
+        self.downsample_layers = nn.ModuleList() 
 
         stem_op = nn.Sequential(
             nn.Conv2d(in_channels, dims[0], kernel_size=4, stride=4),
             LayerNorm(dims[0], eps=1e-6)
         )
 
-        self.encoder_downsampling_collection.append(stem_op)
+        self.downsample_layers.append(stem_op)
 
         #Staging downsampling layers
         for i in range(3):
@@ -33,10 +34,10 @@ class ConvNext(nn.Module):
                 LayerNorm(dims[i], eps = 1e-6),
                 nn.Conv2d(dims[i], dims[i+1], kernel_size = 2, stride = 2)
             )
-            self.encoder_downsampling_collection.append(downsample)
+            self.downsample_layers.append(downsample)
 
-        self.convnext_stages = nn.ModuleList()
-        dp_rates = [x.item() for x in torch.linespace(0, drop_path_rate, sum(depths))]
+        self.stages = nn.ModuleList()
+        dp_rates = [x.item() for x in torch.linspace(0, drop_path_rate, sum(depths))]
 
         current = 0
 
@@ -47,19 +48,27 @@ class ConvNext(nn.Module):
                 layer_scale_init_value=layer_scale_init_value) for j in range(depths[i])]
             )
         
-            self.convnext_stages.append(stage)
+            self.stages.append(stage)
             current += depths[i]
 
         #This is the standard layer normalization for the last layer
-        self.layer_norm = nn.LayerNorm(dims[-1], eps = 1e-6)
+        self.norm = nn.LayerNorm(dims[-1], eps = 1e-6)
         self.head = nn.Linear(dims[-1], num_classes)
 
+        self.apply(self._init_weights)
+        self.head.weight.data.mul_(head_init_scale)
+        self.head.bias.data.mul_(head_init_scale)
+
+    def _init_weights(self, m):
+        if isinstance(m, (nn.Conv2d, nn.Linear)):
+            trunc_normal_(m.weight, std=.02)
+            nn.init.constant_(m.bias, 0)
 
     def forward(self, x):
 
         for i in range(4):
-            x = self.encoder_downsampling_collection[i](x)
-            x = self.convnext_stages[i](x)
+            x = self.downsample_layers[i](x)
+            x = self.stages[i](x)
         
         x = self.head(x)
         return x
@@ -106,7 +115,7 @@ def convnext_build(model_size = 'convnext_tiny', pretrained = 'False', **kwargs)
             model.load_state_dict(checkpoint["model"])
         return model
     elif model_size == 'convnext_large':
-        model = ConvNext(depths = [3, 3, 27, 3], dims = [256, 512, 1024, 2048], **kwargs)
+        model = ConvNext(depths = [3, 3, 27, 3], dims = [192, 384, 768, 1536], **kwargs)
 
         if pretrained:
             pretrained_weight_url = weight_urls['convnext_large']

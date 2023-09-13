@@ -26,7 +26,7 @@ class LayerNorm(nn.Module):
 
     def forward(self, x):
         u = x.mean(1, keepdims = True)
-        s = (x-u).pow(2).mean(1, keepdimes = True)
+        s = (x-u).pow(2).mean(1, keepdim = True)
         x = (x-u)/ torch.sqrt( s + self.eps)
         x = self.weight[:,None, None]*x + self.bias[:,None, None]
         return x
@@ -102,7 +102,7 @@ class DualPathResponseFusionAttention(nn.Module):
         return n_u2 + theta_fuse
   
 
-def conv_relu(in_channels: int , out_channels: int , kernel: int, padding:int) -> function:
+def conv_relu(in_channels: int , out_channels: int , kernel: int, padding:int):
     return nn.Sequential(
         nn.Conv2d(in_channels, out_channels, kernel, padding=padding),
         nn.ReLU(inplace=True),

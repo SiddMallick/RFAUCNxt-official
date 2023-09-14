@@ -10,8 +10,44 @@ from utils.train_test_functions import train_fn, check_accuracy, save_prediction
 import pandas as pd
 from torchvision.models import convnext_tiny
 from utils.loss_functions import *
-
+import argparse
 from models.convnext_encoder import convnext_build
+
+
+#Define the arguments to be parsed from input when train.py is run
+parser = argparse.ArgumentParser()
+
+parser.add_argument('train_img', type = str, help = "directory for train images")
+parser.add_argument('train_mask', type = str, help = "directory for train masks")
+parser.add_argument('test_img', type = str, help = "directory for test images")
+parser.add_argument('test_masks', type = str, help = "directory for test masks")
+parser.add_argument('result_dir', type = str, help = "directory for storing results")
+
+parser.add_argument('--epochs', '-e', type = int, 
+                    default= 50, help = "number of training epochs")
+
+parser.add_argument('--lr', type = float, 
+                    default= 1e-4, help = "learning rate for optimizer")
+
+parser.add_argument('--batch_size', '-B', type = int, 
+                    default= 16, help = "batch size per training epoch")
+
+parser.add_argument('--loss_fn', type = str, 
+                    default= 'jdbc', help = "loss function choice")
+
+parser.add_argument('--model_size', '-m', type = str, 
+                    default= 'tiny', help = "model size of RFAUCNxt")
+
+parser.add_argument('--vertheta', '-v', type = float, 
+                    default= 0.25, help = "joint parameter for jdbc")
+
+parser.add_argument('--num_workers', '-w', type = int, default=2, help="number of cpu workers for training")
+
+parser.add_argument('--pin_mem', type = bool, default=True, help ="pin memory for dataset loaders" )
+
+parser.add_argument('--optimizer', type = str, default = 'adamw', help = "gradient optimizer.")
+
+
 
 LEARNING_RATE = 1e-4
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -28,7 +64,7 @@ VAL_IMG_DIR = "/mnt/d/refuge_cropped_final/refuge_cropped_disc/test/"
 VAL_MASK_DIR = "/mnt/d/refuge_cropped_final/refuge_cropped_disc/test_masks/"
 VERTHETA = 0.25
 
-def main(loss_fn):
+def train_setup_and_run(loss_fn):
   train_transform = A.Compose(
         [
             A.Resize(height=IMAGE_HEIGHT, width=IMAGE_WIDTH),
@@ -75,12 +111,7 @@ def main(loss_fn):
     print("Epoch:",epoch)
     train_fn(train_loader, model, optimizer, loss_fn, scaler)
 
-    #save model
-    # checkpoint = {
-    #     "state_dict":model.state_dict(),
-    #     "optimizer":optimizer.state_dict(),
-    # }
-    #save_checkpoint(checkpoint)
+    
     #check accuracy
     check_accuracy(val_loader, model, device =DEVICE)
 
@@ -90,8 +121,10 @@ def main(loss_fn):
     )
 
 
+
+
 proposed_loss_fn = JBDCLoss(alpha = VERTHETA)
-main(proposed_loss_fn)
+train_setup_and_run(proposed_loss_fn)
 metric = get_metrics_data()
 df = pd.DataFrame(metric)
 df.to_csv('/mnt/d/results/disc_results_proposed_loss.csv')

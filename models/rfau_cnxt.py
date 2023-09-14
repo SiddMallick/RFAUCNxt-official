@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torchvision.transforms.functional as TF
 
-from convnext_encoder import convnext_build
-from model_utils import conv_relu, DualPathResponseFusionAttention
-from blocks import ConvNextDecoderBlock
+from .convnext_encoder import convnext_build
+from .model_utils import conv_relu, DualPathResponseFusionAttention
+from .blocks import ConvNextDecoderBlock
 
 class ResponseFusionAttentionUConvNextTiny(nn.Module):
   def __init__(self, pretrained_encoder_backbone: bool = True, n_class: int = 1, **kwargs) -> None:

@@ -68,15 +68,13 @@ class JaccardLoss_BCE(nn.Module):
         jaccard = (intersection + smooth)/(inputs.sum()+targets.sum()-intersection + smooth)
         return self.alpha*bce + self.alpha*(1-jaccard)
 
-class ProposedLoss(nn.Module):
+class JBDCLoss(nn.Module):
     def __init__(self, weight = None, alpha = 0.5, size_average = True):
-        super(ProposedLoss,self).__init__()
+        super(JBDCLoss,self).__init__()
         self.alpha = alpha
-    def forward(self, inputs, targets,smooth = 1):
-        bce_loss = torch.nn.CrossEntropyLoss()
-        inputs = torch.nn.Softmax(dim=1)(inputs)
-        inputs = inputs.view(-1)
-        targets = targets.view(-1)
+    def forward(self, inputs, targets,  bce_loss = nn.BCEWithLogitsLoss(), smooth = 1):
+        inputs = torch.sigmoid(inputs)
+       
         bce = bce_loss(inputs, targets)
         intersection = (inputs * targets).sum()
 

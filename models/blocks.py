@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch import Tensor
-from model_utils import LayerNorm, LayerNormChannelLast
+from .model_utils import LayerNorm, LayerNormChannelLast
 from timm.models.layers import trunc_normal_, DropPath
 
 class ConvNextEncoderBlock(nn.Module):

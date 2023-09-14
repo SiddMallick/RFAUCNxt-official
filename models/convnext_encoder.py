@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from model_utils import LayerNorm
-from blocks import ConvNextEncoderBlock
+from .model_utils import LayerNorm
+from .blocks import ConvNextEncoderBlock
 from timm.models.layers import trunc_normal_, DropPath
 
 class ConvNext(nn.Module):
@@ -11,7 +11,7 @@ class ConvNext(nn.Module):
     
     """
     def __init__(self, in_channels: int = 3, num_classes: int = 1000,
-                 depths: List[int] = [3,3,9,3], dims: List[int] = [96, 192, 384, 768], drop_path_rate: int = 0.,
+                 depths = [3,3,9,3], dims = [96, 192, 384, 768], drop_path_rate: int = 0.,
                  layer_scale_init_value:int  = 1e-6, head_init_scale: int = 1.,
                  ) -> None:
         

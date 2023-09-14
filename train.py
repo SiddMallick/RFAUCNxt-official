@@ -18,11 +18,11 @@ import os
 #Define the arguments to be parsed from input when train.py is run
 parser = argparse.ArgumentParser()
 
-parser.add_argument('train_img', type = str, help = "directory for train images")
-parser.add_argument('train_mask', type = str, help = "directory for train masks")
-parser.add_argument('test_img', type = str, help = "directory for test images")
-parser.add_argument('test_mask', type = str, help = "directory for test masks")
-parser.add_argument('result_dir', type = str, help = "directory for storing results")
+parser.add_argument('dir', type = str, help = "directory of dataset")
+# parser.add_argument('train_mask', type = str, help = "directory for train masks")
+# parser.add_argument('test_img', type = str, help = "directory for test images")
+# parser.add_argument('test_mask', type = str, help = "directory for test masks")
+parser.add_argument('--result_dir', '-r', type = str, default= '/results' , help = "directory for storing results")
 
 parser.add_argument('--epochs', '-e', type = int, 
                     default= 50, help = "number of training epochs")
@@ -102,10 +102,10 @@ def train_setup_and_run(loss_fn):
     optimizer = optim.Adam(model.parameters(), lr = args.lr)
 
   train_loader, val_loader = get_loaders(
-      args.train_img,
-      args.train_mask,
-      args.test_img,
-      args.test_mask,
+      args.dir + '/train',
+      args.dir + '/train_masks',
+      args.dir + '/test',
+      args.dir + '/test_masks',
       args.batch_size,
       train_transform,
       val_transforms,

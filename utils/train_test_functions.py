@@ -37,7 +37,7 @@ def save_predictions_as_imgs(
   
   model.train()
 
-def check_accuracy(loader, model, device = "cuda"):
+def compute_metrics(loader, model, device = "cuda"):
   num_correct = 0
   num_pixels = 0
   dice_score = 0

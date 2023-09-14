@@ -19,33 +19,21 @@ import os
 parser = argparse.ArgumentParser()
 
 parser.add_argument('dir', type = str, help = "directory of dataset")
-# parser.add_argument('train_mask', type = str, help = "directory for train masks")
-# parser.add_argument('test_img', type = str, help = "directory for test images")
-# parser.add_argument('test_mask', type = str, help = "directory for test masks")
 parser.add_argument('--result_dir', '-r', type = str, default= '/results' , help = "directory for storing results")
-
 parser.add_argument('--epochs', '-e', type = int, 
                     default= 50, help = "number of training epochs")
-
 parser.add_argument('--lr', type = float, 
                     default= 1e-4, help = "learning rate for optimizer")
-
 parser.add_argument('--batch_size', '-B', type = int,
                     default= 16, help = "batch size per training epoch")
-
 parser.add_argument('--loss_fn', type = str, 
                     default= 'jdbc', help = "loss function choice")
-
 parser.add_argument('--model_size', '-m', type = str, 
                     default= 'tiny', help = "model size of RFAUCNxt")
-
 parser.add_argument('--vertheta', '-v', type = float, 
                     default= 0.25, help = "joint parameter for jdbc")
-
 parser.add_argument('--num_workers', '-w', type = int, default=2, help="number of cpu workers for training")
-
 parser.add_argument('--pin_mem', type = bool, default=True, help ="pin memory for dataset loaders" )
-
 parser.add_argument('--optimizer', type = str, default = 'adamw', help = "gradient optimizer.")
 
 args = parser.parse_args()

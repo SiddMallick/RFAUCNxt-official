@@ -9,7 +9,7 @@ Train RFAUCNxt using a medical image dataset containing binary labels. For multi
 Arguments to be parsed from the terminal:
 
 1. dir : Directory of the dataset. Inside the dataset directory, the data should be organized in the following manner:
-   ```
+   ```raw
    a. '/train' : should contain training images.
    
    b. '/train_masks' : should contain corresponding binary masks of the training images.

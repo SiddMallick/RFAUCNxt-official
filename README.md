@@ -9,6 +9,7 @@ Train RFAUCNxt using a medical image dataset containing binary labels. For multi
 Arguments to be parsed from the terminal:
 
 1. dir : Directory of the dataset. Inside the dataset directory, the data should be organized in the following manner:
+   ```
    a. '/train' : should contain training images.
    
    b. '/train_masks' : should contain corresponding binary masks of the training images.
@@ -16,6 +17,7 @@ Arguments to be parsed from the terminal:
    c. '/test' : should contain images for testing every epoch.
 
    d. '/test_masks' : should contain corresponding binary masks of the test images.
+   ```
 3. --result-dir : For storing the results per batch and finally saving the .csv file containing all the metric values per epoch. Defaults to "/results"
 4. --epochs, -e : Number of training epochs. Defaults to 50.
 5. --lr : Learning rate. Defaults to 1e-4

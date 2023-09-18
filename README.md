@@ -28,7 +28,7 @@ Arguments to be parsed from the terminal:
 8. --vertheta, -v : Vertheta value of JDBC loss. Defaults to 0.25
 9. --alpha : Alpha value for joint loss functions like bce_dice and bce_jaccard. Defaults to 0.5.
 10. --num_workers, -w : Number of CPU workers for dataloaders. Defaults to 2.
-11. --pin_mem : Boolean value for pinning to memory during training. Defaults to True.
+11. --pin_mem : Boolean value for pinning to memory for faster data transfer from CPU to GPU. Defaults to True.
 12. --optimizer : Choice of optimizer function. Choices are : (a) adam and (b) adamw. Defaults to adamw.
     
 ## Citations 🌞

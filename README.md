@@ -26,8 +26,8 @@ Arguments to be parsed from the terminal:
 6. --lr : Learning rate. Defaults to 1e-4
 7. --batch_size, -B : batch size per training epoch. This is same for test dataloader as well. Defaults ot 16.
 8. --model_size, -m :  Choice of model size. Choose from : (a) tiny (b) small (c) base (d) large. Defaults to tiny.
-9. --loss_fn : Choice of loss function. Choose from : (a) dice (b) jaccard (c) bce_jaccard (d) bce_dice (e) jbdc. Here 'bce' refers to Binary Cross Entropy loss. This argument defaults to 'jdbc' (Our proposed loss function).
-10. --vertheta, -v : Vertheta value of JDBC loss. Defaults to 0.25
+9. --loss_fn : Choice of loss function. Choose from : (a) dice (b) jaccard (c) bce_jaccard (d) bce_dice (e) jbdc. Here 'bce' refers to Binary Cross Entropy loss. This argument defaults to 'jbdc' (Our proposed loss function).
+10. --vertheta, -v : Vertheta value of JBDC loss. Defaults to 0.25
 11. --alpha : Alpha value for joint loss functions like bce_dice and bce_jaccard. Defaults to 0.5.
 12. --num_workers, -w : Number of CPU workers for dataloaders. Defaults to 2.
 13. --pin_mem : Boolean value for pinning to memory for faster data transfer from CPU to GPU. Defaults to True.

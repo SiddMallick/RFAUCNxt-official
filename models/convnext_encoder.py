@@ -11,7 +11,7 @@ class ConvNext(nn.Module):
     
     """
     def __init__(self, in_channels: int = 3, num_classes: int = 1000,
-                 depths = [3,3,9,3], dims = [96, 192, 384, 768], drop_path_rate: int = 0.,
+                 depths= [3,3,9,3], dims = [96, 192, 384, 768], drop_path_rate: int = 0.,
                  layer_scale_init_value:int  = 1e-6, head_init_scale: int = 1.,
                  ) -> None:
         
@@ -21,6 +21,7 @@ class ConvNext(nn.Module):
         #Stem operation and 3 downsampling layers
         self.downsample_layers = nn.ModuleList() 
 
+        #Stem operation for initial spatial downsampling
         stem_op = nn.Sequential(
             nn.Conv2d(in_channels, dims[0], kernel_size=4, stride=4),
             LayerNorm(dims[0], eps=1e-6)

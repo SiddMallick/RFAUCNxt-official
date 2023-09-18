@@ -28,6 +28,8 @@ parser.add_argument('--batch_size', '-B', type = int,
                     default= 16, help = "batch size per training epoch")
 parser.add_argument('--loss_fn', type = str, 
                     default= 'jdbc', help = "loss function choice")
+parser.add_argument('--alpha', type = float, 
+                    default= 0.5 , help = "alpha value for combined loss")
 parser.add_argument('--model_size', '-m', type = str, 
                     default= 'tiny', help = "model size of RFAUCNxt")
 parser.add_argument('--vertheta', '-v', type = float, 
@@ -121,7 +123,21 @@ def train_setup_and_run(loss_fn):
 
 if __name__ == '__main__':
 
+    
     loss_fn = JBDCLoss(alpha = args.vertheta)
+    
+    if(args.loss_fn == "dice"):
+       loss_fn = DiceLoss()
+    
+    elif(args.loss_fn == "jaccard"):
+       loss_fn = JaccardLoss()
+
+    elif (args.loss_fn == "bce_dice"):
+       loss_fn = DiceLoss_BCE(alpha = args.alpha)
+
+    elif (args.loss_fn == "bce_jaccard"):
+       loss_fn = JaccardLoss_BCE(alpha = args.alpha)
+       
     train_setup_and_run(loss_fn)
     metric = get_metrics_data()
     df = pd.DataFrame(metric)

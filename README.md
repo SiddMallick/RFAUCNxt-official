@@ -25,3 +25,20 @@ Arguments to be parsed from the terminal:
 11. --pin_mem : Boolean value for pinning to memory during training. Defaults to True.
 12. --optimizer : Choice of optimizer function. Choices are : (a) adam and (b) adamw. Defaults to adamw.
     
+##Citations 🌞
+
+Please cite our paper in your project/ research paper if you have used our model in your work: 
+
+'''
+@article{MALLICK2023126798,
+title = {Response Fusion Attention U-ConvNext for accurate segmentation of optic disc and optic cup},
+journal = {Neurocomputing},
+pages = {126798},
+year = {2023},
+issn = {0925-2312},
+doi = {https://doi.org/10.1016/j.neucom.2023.126798},
+url = {https://www.sciencedirect.com/science/article/pii/S0925231223009219},
+author = {Siddhartha Mallick and Jayanta Paul and Jaya Sil},
+keywords = {ConvNeXt, Fundus image analysis, Glaucoma diagnosis, Loss function, Semantic segmentation, U-Net}
+}
+'''

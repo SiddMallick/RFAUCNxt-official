@@ -39,8 +39,7 @@ issn = {0925-2312},
 doi = {https://doi.org/10.1016/j.neucom.2023.126798},
 url = {https://www.sciencedirect.com/science/article/pii/S0925231223009219},
 author = {Siddhartha Mallick and Jayanta Paul and Jaya Sil},
-keywords = {ConvNeXt, Fundus image analysis, Glaucoma diagnosis, Loss function, Semantic segmentation, U-Net},
-abstract = {Glaucoma is a pathological eye condition which requires accurate optic disc and optic cup segmentation for diagnosis. This study proposes Responsive Fusion Attention U-ConvNext, a novel encoder decoder network, for semantic segmentation of optic disc and optic cup structures from fundus images. Response Fusion Attention U-ConvNext is a U-Net like model containing a pre-trained ConvNext encoder network and a light-weight, modified ConvNext decoder network having skip connections between the encoder and decoder blocks. We also propose a new attention gate module called Dual-Path Response Fusion Attention (DPRFA) for smoothing the concatenation process of the encoder and upsampled feature maps. In addition, we propose a modified loss function by combining cross entropy, Dice and Jaccard losses for training the model accurately. The model has four sizes and all of them are trained and validated on DRISHTI-GS and REFUGE datasets. Our proposed models have acheived a dice coefficient of 0.9822 and 0.9269 on optic disc and optic cup segmentation of DRISHTI-GS dataset and a dice coefficient of 0.9788 and 0.9086 on optic disc and optic cup segmentation of REFUGE dataset. The experimental results thus obtained by our suggested models have shown state-of-the-art results when compared to other existing models.}
+keywords = {ConvNeXt, Fundus image analysis, Glaucoma diagnosis, Loss function, Semantic segmentation, U-Net}
 }
 ```
 

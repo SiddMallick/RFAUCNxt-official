@@ -20,17 +20,31 @@ Arguments to be parsed from the terminal:
    d. '/test_masks' : should contain corresponding binary masks of the test images.
    ```
 2. --result-dir : For storing the results per batch and finally saving the .csv file containing all the metric values per epoch. Defaults to "/results"
-3. --epochs, -e : Number of training epochs. Defaults to 50.
-4. --lr : Learning rate. Defaults to 1e-4
-5. --batch_size, -B : batch size per training epoch. This is same for test dataloader as well. Defaults ot 16.
-6. --model_size, -m :  Choice of model size. Choose from : (a) tiny (b) small (c) base (d) large. Defaults to tiny.
-7. --loss_fn : Choice of loss function. Choose from : (a) dice (b) jaccard (c) bce_jaccard (d) bce_dice (e) jdbc. Here 'bce' refers to Binary Cross Entropy loss. This argument defaults to 'jdbc' (Our proposed loss function).
-8. --vertheta, -v : Vertheta value of JDBC loss. Defaults to 0.25
-9. --alpha : Alpha value for joint loss functions like bce_dice and bce_jaccard. Defaults to 0.5.
-10. --num_workers, -w : Number of CPU workers for dataloaders. Defaults to 2.
-11. --pin_mem : Boolean value for pinning to memory for faster data transfer from CPU to GPU. Defaults to True.
-12. --optimizer : Choice of optimizer function. Choices are : (a) adam and (b) adamw. Defaults to adamw.
-    
+3. --save  : Boolean option for saving model checkpoint per epoch. Defaults to False
+4. --save_file_name : File name for saving the model. Defaults to rfaucnxt_model.pth.tar .
+5. --epochs, -e : Number of training epochs. Defaults to 50.
+6. --lr : Learning rate. Defaults to 1e-4
+7. --batch_size, -B : batch size per training epoch. This is same for test dataloader as well. Defaults ot 16.
+8. --model_size, -m :  Choice of model size. Choose from : (a) tiny (b) small (c) base (d) large. Defaults to tiny.
+9. --loss_fn : Choice of loss function. Choose from : (a) dice (b) jaccard (c) bce_jaccard (d) bce_dice (e) jbdc. Here 'bce' refers to Binary Cross Entropy loss. This argument defaults to 'jdbc' (Our proposed loss function).
+10. --vertheta, -v : Vertheta value of JDBC loss. Defaults to 0.25
+11. --alpha : Alpha value for joint loss functions like bce_dice and bce_jaccard. Defaults to 0.5.
+12. --num_workers, -w : Number of CPU workers for dataloaders. Defaults to 2.
+13. --pin_mem : Boolean value for pinning to memory for faster data transfer from CPU to GPU. Defaults to True.
+14. --optimizer : Choice of optimizer function. Choices are : (a) adam and (b) adamw. Defaults to adamw.
+
+```bash
+python3 train.py /path/to/dataset
+      --result_dir /path/to/results
+      --epochs 100 --batch_size 8
+      --optimizer adam
+      --save True --save_file_name rfaucnxt_model.pth.tar
+      --lr 1e-5 --model_size small
+      --loss_fn jbdc --vertheta 0.5
+      --num_workers 2 --pin_mem True
+      --optimizer adamw
+```
+
 ## Citations 🌞
 
 Please cite our paper in your project/ research paper if you have used our model in your work: 

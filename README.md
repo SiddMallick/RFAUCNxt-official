@@ -10,20 +10,23 @@ Arguments to be parsed from the terminal:
 
 1. dir : Directory of the dataset. Inside the dataset directory, the data should be organized in the following manner:
    a. '/train' : should contain training images.
+   
    b. '/train_masks' : should contain corresponding binary masks of the training images.
+
    c. '/test' : should contain images for testing every epoch.
+
    d. '/test_masks' : should contain corresponding binary masks of the test images.
-2. --result-dir : For storing the results per batch and finally saving the .csv file containing all the metric values per epoch. Defaults to "/results"
-3. --epochs, -e : Number of training epochs. Defaults to 50.
-4. --lr : Learning rate. Defaults to 1e-4
-5. --batch_size, -B : batch size per training epoch. This is same for test dataloader as well. Defaults ot 16.
-6. --model_size, -m :  Choice of model size. Choose from : (a) tiny (b) small (c) base (d) large. Defaults to tiny.
-7. --loss_fn : Choice of loss function. Choose from : (a) dice (b) jaccard (c) bce_jaccard (d) bce_dice (e) jdbc. Here 'bce' refers to Binary Cross Entropy loss. This argument defaults to 'jdbc' (Our proposed loss function).
-8. --vertheta, -v : Vertheta value of JDBC loss. Defaults to 0.25
-9. --alpha : Alpha value for joint loss functions like bce_dice and bce_jaccard. Defaults to 0.5.
-10. --num_workers, -w : Number of CPU workers for dataloaders. Defaults to 2.
-11. --pin_mem : Boolean value for pinning to memory during training. Defaults to True.
-12. --optimizer : Choice of optimizer function. Choices are : (a) adam and (b) adamw. Defaults to adamw.
+3. --result-dir : For storing the results per batch and finally saving the .csv file containing all the metric values per epoch. Defaults to "/results"
+4. --epochs, -e : Number of training epochs. Defaults to 50.
+5. --lr : Learning rate. Defaults to 1e-4
+6. --batch_size, -B : batch size per training epoch. This is same for test dataloader as well. Defaults ot 16.
+7. --model_size, -m :  Choice of model size. Choose from : (a) tiny (b) small (c) base (d) large. Defaults to tiny.
+8. --loss_fn : Choice of loss function. Choose from : (a) dice (b) jaccard (c) bce_jaccard (d) bce_dice (e) jdbc. Here 'bce' refers to Binary Cross Entropy loss. This argument defaults to 'jdbc' (Our proposed loss function).
+9. --vertheta, -v : Vertheta value of JDBC loss. Defaults to 0.25
+10. --alpha : Alpha value for joint loss functions like bce_dice and bce_jaccard. Defaults to 0.5.
+11. --num_workers, -w : Number of CPU workers for dataloaders. Defaults to 2.
+12. --pin_mem : Boolean value for pinning to memory during training. Defaults to True.
+13. --optimizer : Choice of optimizer function. Choices are : (a) adam and (b) adamw. Defaults to adamw.
     
 ## Citations 🌞
 

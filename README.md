@@ -33,6 +33,7 @@ Arguments to be parsed from the terminal:
 13. --pin_mem : Boolean value for pinning to memory for faster data transfer from CPU to GPU. Defaults to True.
 14. --optimizer : Choice of optimizer function. Choices are : (a) adam and (b) adamw. Defaults to adamw.
 
+An example bash command for training RFAUCNxt 🚀 would be:
 ```bash
 python3 train.py /path/to/dataset
       --result_dir /path/to/results

@@ -6,7 +6,7 @@ from torchvision import transforms
 from models.rfau_cnxt import ResponseFusionAttentionUConvNextTiny, ResponseFusionAttentionUConvNextBase, ResponseFusionAttentionUConvNextSmall, ResponseFusionAttentionUConvNextLarge
 import torch.optim as optim
 import torch
-from utils.train_test_functions import train_fn, compute_metrics, save_predictions_as_imgs, get_metrics_data
+from utils.train_test_functions import train_fn, compute_metrics, save_predictions_as_imgs, get_metrics_data, save_checkpoint
 import pandas as pd
 from torchvision.models import convnext_tiny
 from utils.loss_functions import *
@@ -20,6 +20,9 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('dir', type = str, help = "directory of dataset")
 parser.add_argument('--result_dir', '-r', type = str, default= '/results' , help = "directory for storing results")
+parser.add_argument('--save', type = bool, default=False, help = "save model option for saving checkpoints at each epoch")
+parser.add_argument('--save_file_name', type= str, default='rfaucnxt_model.pth.tar', help = "Model save name. Save format is .pth.tar")
+
 parser.add_argument('--epochs', '-e', type = int, 
                     default= 50, help = "number of training epochs")
 parser.add_argument('--lr', type = float, 
@@ -37,6 +40,7 @@ parser.add_argument('--vertheta', '-v', type = float,
 parser.add_argument('--num_workers', '-w', type = int, default=2, help="number of cpu workers for training")
 parser.add_argument('--pin_mem', type = bool, default=True, help ="pin memory for dataset loaders" )
 parser.add_argument('--optimizer', type = str, default = 'adamw', help = "gradient optimizer.")
+
 
 args = parser.parse_args()
 
@@ -109,7 +113,14 @@ def train_setup_and_run(loss_fn):
   for epoch in range(num_epochs):
     print("Epoch:",epoch)
     train_fn(train_loader, model, optimizer, loss_fn, scaler)
-
+    
+    if args.save == True:
+        #save model
+        checkpoint = {
+            "state_dict":model.state_dict(),
+            "optimizer":optimizer.state_dict(),
+        }
+        save_checkpoint(checkpoint, filename=args.save_file_name)
     
     #compute metrics
     compute_metrics(val_loader, model, device = DEVICE)

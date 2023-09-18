@@ -11,7 +11,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 def get_metrics_data():
   return metric
 
-def save_checkpoint(state, filename = "/content/gdrive/MyDrive/results_for_comparison/refuge_unetplus.pth.tar"):
+def save_checkpoint(state, filename = "refuge_rfaucnxt_tiny.pth.tar"):
   print("=> Saving Checkpoint")
   torch.save(state,filename)
 
